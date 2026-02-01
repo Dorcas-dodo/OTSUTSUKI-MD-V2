@@ -1,26 +1,11 @@
-const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
-async function deepseekCommand(sock, chatId, message, query) {
-    try {
-        // React with 🤖 while processing
-        await sock.sendMessage(chatId, {
-            react: { text: "🤖", key: message.key }
-        });
-
-        const apiUrl = `https://all-in-1-ais.officialhectormanuel.workers.dev/?query=${encodeURIComponent(query)}&model=deepseek`;
-
-        const response = await axios.get(apiUrl);
-
-        if (response.data && response.data.success && response.data.message?.content) {
-            const answer = response.data.message.content;
-            await sock.sendMessage(chatId, { text: answer }, { quoted: message });
-        } else {
-            throw new Error("Invalid Deepseek response");
-        }
-    } catch (error) {
-        console.error("Deepseek API Error:", error.message);
-        await sock.sendMessage(chatId, { text: "❌ Deepseek failed. Try again later." }, { quoted: message });
+module.exports = {
+    name: "gemini",
+    async execute(sock, m, { args }) {
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const result = await model.generateContent(args.join(" "));
+        m.reply(result.response.text());
     }
-}
-
-module.exports = { deepseekCommand };
+};
