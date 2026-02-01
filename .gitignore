@@ -1,0 +1,33 @@
+# --- OTSUTSUKI-MD SÉCURITÉ ---
+
+# Dossiers de dépendances (Trop lourds pour GitHub)
+node_modules/
+package-lock.json
+
+# --- CRUCIAL : Dossiers de session ---
+# (Si tu envoies ça, on peut voler ton compte WhatsApp)
+auth_info/
+session/
+creds.json
+session.json
+
+# --- Bases de données locales ---
+database.json
+*.db
+*.sqlite
+quickdb.json
+
+# --- Fichiers système et Logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.env
+
+# --- Fichiers de téléchargement temporaires ---
+temp/
+downloads/
+*.mp4
+*.mp3
+*.jpg
+*.png
